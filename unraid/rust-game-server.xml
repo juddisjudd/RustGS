@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <n>RustGS</n>
+  <Repository>ipajudd/rustgs:latest</Repository>
+  <Registry>https://hub.docker.com/r/ipajudd/rustgs</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/juddisjudd/RustGS</Support>
+  <Project>https://github.com/juddisjudd/RustGS</Project>
+  <Overview>RustGS - Rust dedicated server with Oxide/Carbon mod support. Fully configurable through environment variables with automatic server updates and mod management. Optimized for Unraid with proper UID/GID handling.</Overview>
+  <Category>GameServers:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/juddisjudd/RustGS/main/unraid/rust-game-server.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/juddisjudd/RustGS/main/unraid/icon.png</Icon>
+  <ExtraParams>--restart=unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1699123456</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  
+  <!-- Port Configuration -->
+  <Config Name="Game Port" Target="28015" Default="28015" Mode="tcp" Description="Primary game port (TCP)" Type="Port" Display="always" Required="true" Mask="false">28015</Config>
+  <Config Name="Game Port UDP" Target="28015" Default="28015" Mode="udp" Description="Primary game port (UDP)" Type="Port" Display="always" Required="true" Mask="false">28015</Config>
+  <Config Name="Query/RCON Port" Target="28016" Default="28016" Mode="tcp" Description="Query and RCON port" Type="Port" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="Query Port UDP" Target="28016" Default="28016" Mode="udp" Description="Query port (UDP)" Type="Port" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="Rust+ App Port" Target="28082" Default="28082" Mode="tcp" Description="Rust+ mobile app communication port" Type="Port" Display="always" Required="false" Mask="false">28082</Config>
+  
+  <!-- Volume Configuration - New improved structure -->
+  <Config Name="Server Data" Target="/serverdata" Default="/mnt/user/appdata/rustgs" Mode="rw" Description="All server data (steamcmd, server files, mods, logs)" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/rustgs</Config>
+
+  <!-- System Configuration -->
+  <Config Name="PUID" Target="UID" Default="99" Mode="" Description="User ID for file permissions" Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
+  <Config Name="PGID" Target="GID" Default="100" Mode="" Description="Group ID for file permissions" Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
+  <Config Name="UMASK" Target="UMASK" Default="000" Mode="" Description="File permission mask" Type="Variable" Display="advanced" Required="false" Mask="false">000</Config>
+
+  <!-- Server Identity & Networking -->
+  <Config Name="Server Identity" Target="SERVER_IDENTITY" Default="my-rustgs-server" Mode="" Description="Server identity folder name (used for saves/config)" Type="Variable" Display="always" Required="true" Mask="false">my-rustgs-server</Config>
+  <Config Name="Game Port" Target="GAME_PORT" Default="28015" Mode="" Description="Game server port" Type="Variable" Display="always" Required="true" Mask="false">28015</Config>
+  <Config Name="Query Port" Target="QUERY_PORT" Default="28016" Mode="" Description="Query port for server lists" Type="Variable" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="RCON Port" Target="RCON_PORT" Default="28016" Mode="" Description="RCON administration port" Type="Variable" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="RCON Password" Target="RCON_PASSWORD" Default="" Mode="" Description="RCON password (REQUIRED for RCON access - leave empty to disable RCON)" Type="Variable" Display="always" Required="false" Mask="true"></Config>
+  <Config Name="RCON Web" Target="RCON_WEB" Default="1" Mode="" Description="Enable RCON over WebSockets (1=true, 0=false)" Type="Variable" Display="always" Required="true" Mask="false">1</Config>
+
+  <!-- Server Information -->
+  <Config Name="Server Name" Target="SERVER_NAME" Default="My Unraid RustGS Server" Mode="" Description="Server name shown in server browser" Type="Variable" Display="always" Required="true" Mask="false">My Unraid RustGS Server</Config>
+  <Config Name="Server Description" Target="SERVER_DESCRIPTION" Default="A RustGS server running on Unraid" Mode="" Description="Server description shown in server info" Type="Variable" Display="always" Required="false" Mask="false">A RustGS server running on Unraid</Config>
+  <Config Name="Server URL" Target="SERVER_URL" Default="" Mode="" Description="Website or Discord link" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Server Banner" Target="SERVER_HEADERIMAGE" Default="" Mode="" Description="Server banner image URL (512x256 JPG/PNG)" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Max Players" Target="SERVER_MAXPLAYERS" Default="100" Mode="" Description="Maximum number of players" Type="Variable" Display="always" Required="true" Mask="false">100</Config>
+
+  <!-- World Configuration -->
+  <Config Name="Map Type" Target="SERVER_LEVEL" Default="Procedural Map" Mode="" Description="Map type (Procedural Map, Barren, HapisIsland, or custom)" Type="Variable" Display="always" Required="true" Mask="false">Procedural Map</Config>
+  <Config Name="World Seed" Target="SERVER_SEED" Default="12345" Mode="" Description="World generation seed" Type="Variable" Display="always" Required="true" Mask="false">12345</Config>
+  <Config Name="World Size" Target="SERVER_WORLDSIZE" Default="3000" Mode="" Description="World size (2000-6000, larger = more resource intensive)" Type="Variable" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="Custom Map URL" Target="SERVER_LEVELURL" Default="" Mode="" Description="URL to custom map (leave empty for procedural)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Save Interval" Target="SERVER_SAVEINTERVAL" Default="600" Mode="" Description="Auto-save interval in seconds" Type="Variable" Display="advanced" Required="false" Mask="false">600</Config>
+
+  <!-- Performance Settings -->
+  <Config Name="FPS Limit" Target="FPS_LIMIT" Default="30" Mode="" Description="Server FPS limit (higher = more CPU usage)" Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>
+  <Config Name="Tick Rate" Target="SERVER_TICKRATE" Default="30" Mode="" Description="Server tick rate (higher = more responsive)" Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>
+
+  <!-- Rust+ App -->
+  <Config Name="Rust+ Port" Target="APP_PORT" Default="28082" Mode="" Description="Rust+ mobile app port" Type="Variable" Display="advanced" Required="false" Mask="false">28082</Config>
+  <Config Name="Public IP" Target="APP_PUBLICIP" Default="" Mode="" Description="Public IP for Rust+ app (auto-detected if empty)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+
+  <!-- Security -->
+  <Config Name="EasyAntiCheat" Target="SERVER_SECURE" Default="true" Mode="" Description="Enable EasyAntiCheat" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Server Encryption" Target="SERVER_ENCRYPTION" Default="1" Mode="" Description="Enable server encryption (1=true, 0=false)" Type="Variable" Display="advanced" Required="false" Mask="false">1</Config>
+
+  <!-- Mod Configuration -->
+  <Config Name="Enable Oxide" Target="OXIDE_MOD" Default="false" Mode="" Description="Enable Oxide/uMod framework" Type="Variable" Display="always" Required="false" Mask="false">false</Config>
+  <Config Name="Enable Carbon" Target="CARBON_MOD" Default="false" Mode="" Description="Enable Carbon mod framework" Type="Variable" Display="always" Required="false" Mask="false">false</Config>
+  <Config Name="Force Oxide Install" Target="FORCE_OXIDE_INSTALLATION" Default="true" Mode="" Description="Force reinstall Oxide on startup" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Force Carbon Install" Target="FORCE_CARBON_INSTALLATION" Default="true" Mode="" Description="Force reinstall Carbon on startup" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+
+  <!-- Steam Configuration -->
+  <Config Name="Validate Install" Target="VALIDATE" Default="false" Mode="" Description="Validate server files on startup (slower but more reliable)" Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Steam Username" Target="USERNAME" Default="" Mode="" Description="Steam username (leave empty for anonymous)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Steam Password" Target="PASSWRD" Default="" Mode="" Description="Steam password (leave empty for anonymous)" Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+</Container><?xml version="1.0"?>
+<Container version="2">
+  <Name>rust-game-server</Name>
+  <Repository>yourusername/rust-game-server:latest</Repository>
+  <Registry>https://hub.docker.com/r/yourusername/rust-game-server</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/yourusername/rust-game-server-docker</Support>
+  <Project>https://github.com/yourusername/rust-game-server-docker</Project>
+  <Overview>Rust dedicated server with Oxide/Carbon mod support. Fully configurable through environment variables with automatic server updates and mod management.</Overview>
+  <Category>GameServers:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/yourusername/rust-game-server-docker/main/unraid/rust-game-server.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/yourusername/rust-game-server-docker/main/unraid/icon.png</Icon>
+  <ExtraParams>--restart=unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1699123456</DateInstalled>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Config Name="Game Port" Target="28015" Default="28015" Mode="tcp" Description="Primary game port (TCP)" Type="Port" Display="always" Required="true" Mask="false">28015</Config>
+  <Config Name="Game Port UDP" Target="28015" Default="28015" Mode="udp" Description="Primary game port (UDP)" Type="Port" Display="always" Required="true" Mask="false">28015</Config>
+  <Config Name="Query/RCON Port" Target="28016" Default="28016" Mode="tcp" Description="Query and RCON port" Type="Port" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="Query Port UDP" Target="28016" Default="28016" Mode="udp" Description="Query port (UDP)" Type="Port" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="Rust+ App Port" Target="28082" Default="28082" Mode="tcp" Description="Rust+ mobile app communication port" Type="Port" Display="always" Required="false" Mask="false">28082</Config>
+  
+  <Config Name="Server Data" Target="/home/steam/rust-server" Default="/mnt/user/appdata/rust-server/data" Mode="rw" Description="Server installation and world data" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/rust-server/data</Config>
+  <Config Name="Server Logs" Target="/home/steam/logs" Default="/mnt/user/appdata/rust-server/logs" Mode="rw" Description="Server log files" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/rust-server/logs</Config>
+  <Config Name="Oxide Data" Target="/home/steam/oxide" Default="/mnt/user/appdata/rust-server/oxide" Mode="rw" Description="Oxide/uMod plugins and data" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rust-server/oxide</Config>
+  <Config Name="Carbon Data" Target="/home/steam/carbon" Default="/mnt/user/appdata/rust-server/carbon" Mode="rw" Description="Carbon mod plugins and data" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/rust-server/carbon</Config>
+
+  <!-- Server Identity & Networking -->
+  <Config Name="Server Identity" Target="SERVER_IDENTITY" Default="my-rust-server" Mode="" Description="Server identity folder name (used for saves/config)" Type="Variable" Display="always" Required="true" Mask="false">my-rust-server</Config>
+  <Config Name="Server Port" Target="SERVER_PORT" Default="28015" Mode="" Description="Game server port" Type="Variable" Display="always" Required="true" Mask="false">28015</Config>
+  <Config Name="Query Port" Target="SERVER_QUERYPORT" Default="28016" Mode="" Description="Query port for server lists" Type="Variable" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="RCON Port" Target="RCON_PORT" Default="28016" Mode="" Description="RCON administration port" Type="Variable" Display="always" Required="true" Mask="false">28016</Config>
+  <Config Name="RCON Password" Target="RCON_PASSWORD" Default="changeme123" Mode="" Description="RCON password (CHANGE THIS!)" Type="Variable" Display="always" Required="true" Mask="true">changeme123</Config>
+  <Config Name="RCON Web" Target="RCON_WEB" Default="1" Mode="" Description="Enable RCON over WebSockets (1=true, 0=false)" Type="Variable" Display="always" Required="true" Mask="false">1</Config>
+
+  <!-- Server Information -->
+  <Config Name="Server Name" Target="SERVER_HOSTNAME" Default="My Unraid Rust Server" Mode="" Description="Server name shown in server browser" Type="Variable" Display="always" Required="true" Mask="false">My Unraid Rust Server</Config>
+  <Config Name="Server Description" Target="SERVER_DESCRIPTION" Default="A Rust server running on Unraid" Mode="" Description="Server description shown in server info" Type="Variable" Display="always" Required="false" Mask="false">A Rust server running on Unraid</Config>
+  <Config Name="Server URL" Target="SERVER_URL" Default="" Mode="" Description="Website or Discord link" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Server Banner" Target="SERVER_HEADERIMAGE" Default="" Mode="" Description="Server banner image URL (512x256 JPG/PNG)" Type="Variable" Display="always" Required="false" Mask="false"></Config>
+  <Config Name="Max Players" Target="SERVER_MAXPLAYERS" Default="100" Mode="" Description="Maximum number of players" Type="Variable" Display="always" Required="true" Mask="false">100</Config>
+
+  <!-- World Configuration -->
+  <Config Name="Map Type" Target="SERVER_LEVEL" Default="Procedural Map" Mode="" Description="Map type (Procedural Map, Barren, HapisIsland, or custom)" Type="Variable" Display="always" Required="true" Mask="false">Procedural Map</Config>
+  <Config Name="World Seed" Target="SERVER_SEED" Default="12345" Mode="" Description="World generation seed" Type="Variable" Display="always" Required="true" Mask="false">12345</Config>
+  <Config Name="World Size" Target="SERVER_WORLDSIZE" Default="3000" Mode="" Description="World size (2000-6000, larger = more resource intensive)" Type="Variable" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="Custom Map URL" Target="SERVER_LEVELURL" Default="" Mode="" Description="URL to custom map (leave empty for procedural)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Save Interval" Target="SERVER_SAVEINTERVAL" Default="600" Mode="" Description="Auto-save interval in seconds" Type="Variable" Display="advanced" Required="false" Mask="false">600</Config>
+
+  <!-- Performance Settings -->
+  <Config Name="FPS Limit" Target="FPS_LIMIT" Default="30" Mode="" Description="Server FPS limit (higher = more CPU usage)" Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>
+  <Config Name="Tick Rate" Target="SERVER_TICKRATE" Default="30" Mode="" Description="Server tick rate (higher = more responsive)" Type="Variable" Display="advanced" Required="false" Mask="false">30</Config>
+
+  <!-- Rust+ App -->
+  <Config Name="Rust+ Port" Target="APP_PORT" Default="28082" Mode="" Description="Rust+ mobile app port" Type="Variable" Display="advanced" Required="false" Mask="false">28082</Config>
+  <Config Name="Public IP" Target="APP_PUBLICIP" Default="" Mode="" Description="Public IP for Rust+ app (auto-detected if empty)" Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+
+  <!-- Security -->
+  <Config Name="EasyAntiCheat" Target="SERVER_SECURE" Default="true" Mode="" Description="Enable EasyAntiCheat" Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Server Encryption" Target="SERVER_ENCRYPTION" Default="1" Mode="" Description="Enable server encryption (1=true, 0=false)" Type="Variable" Display="advanced" Required="false" Mask="false">1</Config>
+
+  <!-- Mod Configuration -->
+  <Config Name="Enable Oxide" Target="USE_OXIDE" Default="false" Mode="" Description="Enable Oxide/uMod framework" Type="Variable" Display="always" Required="false" Mask="false">false</Config>
+  <Config Name="Enable Carbon" Target="USE_CARBON" Default="false" Mode="" Description="Enable Carbon mod framework" Type="Variable" Display="always" Required="false" Mask="false">false</Config>
+
+  <!-- Logging -->
+  <Config Name="Log File Path" Target="LOGFILE_PATH" Default="/home/steam/logs/server.log" Mode="" Description="Server log file location" Type="Variable" Display="advanced" Required="false" Mask="false">/home/steam/logs/server.log</Config>
+</Container>

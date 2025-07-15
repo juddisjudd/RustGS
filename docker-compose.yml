@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  rust-server:
+    build: .
+    # Or use published image: image: ipajudd/rustgs:latest
+    container_name: rustgs-server
+    restart: unless-stopped
+    
+    ports:
+      - "28015:28015/tcp"    # Game port
+      - "28015:28015/udp"    # Game port UDP
+      - "28016:28016/tcp"    # Query/RCON port
+      - "28016:28016/udp"    # Query port UDP
+      - "28082:28082/tcp"    # Rust+ app port
+    
+    volumes:
+      - rustgs_data:/serverdata
+    
+    environment:
+      # System Configuration
+      - UID=1000
+      - GID=1000
+      - UMASK=000
+      
+      # Server Identity & Networking
+      - SERVER_IDENTITY=my-rustgs-server
+      - GAME_PORT=28015
+      - QUERY_PORT=28016
+      - RCON_PORT=28016
+      - RCON_PASSWORD=supersecretpassword
+      - RCON_WEB=1
+      
+      # Server Information
+      - SERVER_NAME=My Awesome RustGS Server
+      - SERVER_DESCRIPTION=Welcome to my RustGS Docker-powered Rust server!
+      - SERVER_URL=https://discord.gg/yourserver
+      - SERVER_HEADERIMAGE=https://example.com/banner.jpg
+      - SERVER_MAXPLAYERS=100
+      
+      # World Configuration
+      - SERVER_LEVEL=Procedural Map
+      - SERVER_SEED=12345
+      - SERVER_WORLDSIZE=3000
+      - SERVER_LEVELURL=
+      - SERVER_SAVEINTERVAL=600
+      
+      # Performance Settings
+      - FPS_LIMIT=30
+      - SERVER_TICKRATE=30
+      
+      # Rust+ App Configuration
+      - APP_PORT=28082
+      - APP_PUBLICIP=
+      
+      # Security Settings
+      - SERVER_SECURE=true
+      - SERVER_ENCRYPTION=1
+      
+      # Mod Configuration
+      - OXIDE_MOD=false
+      - CARBON_MOD=false
+      - FORCE_OXIDE_INSTALLATION=true
+      - FORCE_CARBON_INSTALLATION=true
+      
+      # Steam Configuration
+      - VALIDATE=false
+      - USERNAME=
+      - PASSWRD=
+    
+    # Resource limits (adjust based on your server)
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+          cpus: '4'
+        reservations:
+          memory: 4G
+          cpus: '2'
+    
+    # Health check
+    healthcheck:
+      test: ["/opt/scripts/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      start_period: 300s
+      retries: 3
+
+volumes:
+  rustgs_data:

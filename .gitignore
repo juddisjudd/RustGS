@@ -1,0 +1,69 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Backups
+backups/
+*.tar.gz
+*.zip
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Local development
+local/
+dev/
+
+# Rust server files (if testing locally)
+rust-server/
+server-data/
+oxide/
+carbon/
+logs/
+
+# Node modules (if adding any Node.js tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if adding any Python tooling)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Secrets and sensitive data
+secrets/
+*.key
+*.pem
+*.crt
+credentials.json
+
+# misc
+codebase.md
+project-structure.md
